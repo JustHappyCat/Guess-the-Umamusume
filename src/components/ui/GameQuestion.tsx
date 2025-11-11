@@ -50,6 +50,13 @@ export default function GameQuestion({
     }, 2000);
   };
 
+  useEffect(() => {
+    setSelectedAnswer("");
+    setShowResult(false);
+    setIsAnswered(question.isAnswered || false);
+    setFeedback(null);
+  }, [question.id, question.isAnswered]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;

@@ -1,10 +1,9 @@
-import Link from "next/link";
-import MainMenu from "../feature/mainmenu/mainmenu"
+import MainMenu from "../feature/mainmenu/mainmenu";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <MainMenu/>
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+      <MainMenu />
     </div>
   );
 }

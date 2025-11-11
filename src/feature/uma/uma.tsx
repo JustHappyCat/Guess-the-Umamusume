@@ -1,26 +1,44 @@
-import QuizElement from "@/components/quizelement/quizelement";
-import UmaMusume from "../../modal/umamusume"
+"use client";
 
-function getUmas() {
-    // Get UmaMusumes list from data store 
-    const goldShip = new UmaMusume("gold_ship", "GoldShip", "Goofy aah horse", "testurl", "testUrl")
-    const speChan = new UmaMusume("special_week", "Special Week", "Goofy aah horse", "testurl", "testUrl")
-    return [goldShip, speChan]
-}
+import { useGame } from "@/contexts/GameContext";
+import GameStart from "@/components/ui/GameStart";
+import GameQuestion from "@/components/ui/GameQuestion";
+import GameResults from "@/components/ui/GameResults";
 
-export default function uma() {
-    return (
-        <>
-            <div className="col-span-1 flex flex-col gap-[32px] row-start-1 sm:items-start">
-                Guess the uma page
-                {[getUmas().map((x, i) =>
-                    <QuizElement key={i} uma={x} />
-                )]}
-            </div>
-            <div className="col-span-2 flex flex-row gap-[32px] col-start-2 items-center sm:items-start">
-                Test
-            </div>
-        </>
+export default function Uma() {
+  const { currentSession, nextQuestion } = useGame();
 
-    )
+  // If no active session, show game start
+  if (!currentSession) {
+    return <GameStart />;
+  }
+
+  // If game is completed, show results
+  if (currentSession.isCompleted) {
+    return <GameResults />;
+  }
+
+  // Get current question
+  const currentQuestion = currentSession.questions[currentSession.currentQuestion];
+  
+  const handleAnswer = (answer: string) => {
+    void answer;
+    // Game state is already handled in GameQuestion component
+    // Just wait for the delay then move to next question
+    setTimeout(() => {
+      nextQuestion();
+    }, 2500);
+  };
+
+  return (
+    <div className="min-h-screen bg-[var(--background)]">
+      <GameQuestion
+        question={currentQuestion}
+        questionNumber={currentSession.currentQuestion + 1}
+        totalQuestions={currentSession.totalQuestions}
+        onAnswer={handleAnswer}
+        showFeedback={true}
+      />
+    </div>
+  );
 }
